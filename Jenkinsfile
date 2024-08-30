@@ -3,7 +3,6 @@ pipeline{
     environment {
         STAGING_SERVER = 'ec2-user@staging-server:/var/lib/tomcat9/webapps/'
         PRODUCTION_SERVER = 'ec2-user@production-server:/var/lib/tomcat9/webapps/'
-        EMAIL_RECIPIENTS = 'sanjaygurun.155@gmail.com'
     }
     stages{
         stage('Build'){
@@ -20,12 +19,18 @@ pipeline{
             }
              post {
                 always {
-                    script {
-                        emailext attachLog:true,
+                    // script {
+                    //     emailext attachLog:true,
+                    //     to: "sanjaygurun.155@gmail.com",
+                    //     subject: "Test status Email: ${currentBuild.currentResult}",
+                    //     body: "Test completed with status: ${currentBuild.currentResult}.",
+                    // }
+                    emailext(
+                        attachLog: true,
                         to: "sanjaygurun.155@gmail.com",
                         subject: "Test status Email: ${currentBuild.currentResult}",
-                        body: "Test completed with status: ${currentBuild.currentResult}.",
-                    }
+                        body: "Test completed with status: ${currentBuild.currentResult}."
+                    )
                 }
             }
         }
@@ -42,12 +47,18 @@ pipeline{
             }
             post {
                 always {
-                    script{
-                        emailext attachLog:true,
+                    // script{
+                    //     emailext attachLog:true,
+                    //     to: "sanjaygurun.155@gmail.com",
+                    //     subject: "Security scan status Email: ${currentBuild.currentResult}",
+                    //     body: "Security scan completed with status: ${currentBuild.currentResult}.",
+                    // }
+                     emailext(
+                        attachLog: true,
                         to: "sanjaygurun.155@gmail.com",
                         subject: "Security scan status Email: ${currentBuild.currentResult}",
-                        body: "Security scan completed with status: ${currentBuild.currentResult}.",
-                    }
+                        body: "Security scan completed with status: ${currentBuild.currentResult}."
+                    )
                 }
             }
         }
