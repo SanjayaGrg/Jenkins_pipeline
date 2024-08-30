@@ -20,10 +20,12 @@ pipeline{
             }
              post {
                 always {
-                    mail to: "sanjaygurun.155@gmail.com",
-                    subject: "Test status Email: ${currentBuild.currentResult}",
-                    body: "Test completed with status: ${currentBuild.currentResult}.",
-                    emailext attachLog:true
+                    script {
+                        mail to: "sanjaygurun.155@gmail.com",
+                        subject: "Test status Email: ${currentBuild.currentResult}",
+                        body: "Test completed with status: ${currentBuild.currentResult}.",
+                        emailext attachLog:true
+                    }
                 }
             }
         }
@@ -40,10 +42,12 @@ pipeline{
             }
             post {
                 always {
-                    mail to: "sanjaygurun.155@gmail.com",
-                    subject: "Security scan status Email: ${currentBuild.currentResult}",
-                    body: "Security scan completed with status: ${currentBuild.currentResult}.",
-                    emailext attachLog:true
+                    script{
+                        mail to: "sanjaygurun.155@gmail.com",
+                        subject: "Security scan status Email: ${currentBuild.currentResult}",
+                        body: "Security scan completed with status: ${currentBuild.currentResult}.",
+                        emailext attachLog:true
+                    }
                 }
             }
         }
