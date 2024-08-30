@@ -53,14 +53,21 @@ pipeline{
             }
         }
     }
-     post {
+    //  post {
+    //     always {
+    //         emailext(
+    //             subject: "Pipeline Status: ${currentBuild.currentResult}",
+    //             body: "Pipeline completed with status: ${currentBuild.currentResult}.",
+    //             to: "$EMAIL_RECIPIENTS",
+    //             attachLog: true
+    //         )
+    //     }
+    // }
+    post {
         always {
-            emailext(
-                subject: "Pipeline Status: ${currentBuild.currentResult}",
-                body: "Pipeline completed with status: ${currentBuild.currentResult}.",
-                to: "$EMAIL_RECIPIENTS",
-                attachLog: true
-            )
+            mail to: $EMAIL_RECIPIENTS,
+            subject: "Build status Email: ${currentBuild.currentResult}",
+            body: "Build completed with status: ${currentBuild.currentResult}."
         }
     }
 }
