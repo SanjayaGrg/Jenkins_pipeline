@@ -1,8 +1,5 @@
 pipeline{
     agent any
-    // tools {
-    //     maven 'Maven 3.8.1' // Use the name configured in Global Tool Configuration
-    // }
     environment {
         STAGING_SERVER = 'ec2-user@staging-server:/var/lib/tomcat9/webapps/'
         PRODUCTION_SERVER = 'ec2-user@production-server:/var/lib/tomcat9/webapps/'
@@ -21,6 +18,14 @@ pipeline{
                 echo "Running unit and integration tests using JUnit and TestNG tools respectively"
                 // sh "mvn test"
             }
+             post {
+                always {
+                    mail to: "sanjaygurun.155@gmail.com",
+                    subject: "Test status Email: ${currentBuild.currentResult}",
+                    body: "Test completed with status: ${currentBuild.currentResult}.",
+                    emailext attachLog:true
+                }
+            }
         }
         stage('Code Analysis'){
             steps {
@@ -32,6 +37,14 @@ pipeline{
             steps {
                 echo "Performing security scan on the code using OWASP Markup Formatter tool"
                 // sh "mvn org.owasp:dependency-check-maven:check"
+            }
+            post {
+                always {
+                    mail to: "sanjaygurun.155@gmail.com",
+                    subject: "Security scan status Email: ${currentBuild.currentResult}",
+                    body: "Security scan completed with status: ${currentBuild.currentResult}.",
+                    emailext attachLog:true
+                }
             }
         }
         stage('Deploy to Staging'){
@@ -53,16 +66,6 @@ pipeline{
             }
         }
     }
-    //  post {
-    //     always {
-    //         emailext(
-    //             subject: "Pipeline Status: ${currentBuild.currentResult}",
-    //             body: "Pipeline completed with status: ${currentBuild.currentResult}.",
-    //             to: "$EMAIL_RECIPIENTS",
-    //             attachLog: true
-    //         )
-    //     }
-    // }
     post {
         always {
             mail to: "sanjaygurun.155@gmail.com",
