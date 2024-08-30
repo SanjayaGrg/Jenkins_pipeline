@@ -1,5 +1,8 @@
 pipeline{
     agent any
+    tools {
+        maven 'Maven 3.8.1' // Use the name configured in Global Tool Configuration
+    }
     environment {
         STAGING_SERVER = 'ec2-user@staging-server:/var/lib/tomcat9/webapps/'
         PRODUCTION_SERVER = 'ec2-user@production-server:/var/lib/tomcat9/webapps/'
