@@ -8,6 +8,7 @@ pipeline{
     stages{
         stage('Build'){
             steps {
+                // building the application using  tool
                 echo "Building the application using a build automation tool e.g., maven"
                 sh "mvn clean install"
             }
